@@ -1,0 +1,46 @@
+classDiagram
+    %% Singleton
+    class GestorConfiguracion {
+        -static GestorConfiguracion instancia
+        -String urlBd
+        -String pathReportes
+        -GestorConfiguracion()
+        +static getInstancia() GestorConfiguracion
+    }
+
+    %% Factory Method
+    class Renderizador {
+        <<interface>>
+        +renderizar(String contenido)
+    }
+    class RenderizadorPDF {
+        +renderizar(String contenido)
+    }
+    class RenderizadorExcel {
+        +renderizar(String contenido)
+    }
+    class RenderizadorFactory {
+        +static obtenerRenderizador(String formato) Renderizador
+    }
+
+    Renderizador <|.. RenderizadorPDF
+    Renderizador <|.. RenderizadorExcel
+    RenderizadorFactory ..> Renderizador : crea
+
+    %% Builder
+    class Reporte {
+        -String titulo
+        -String cuerpo
+        -String autor
+        -Reporte(ReporteBuilder)
+    }
+    class ReporteBuilder {
+        -String titulo
+        -String cuerpo
+        -String autor
+        +ReporteBuilder(titulo, cuerpo)
+        +setAutor(String)
+        +build() Reporte
+    }
+
+    Reporte *-- ReporteBuilder : contiene/construye
